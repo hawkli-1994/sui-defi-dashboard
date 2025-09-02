@@ -1,22 +1,18 @@
-import { http, createConfig } from 'wagmi'
+import { http } from 'wagmi'
 import { mainnet, polygon, arbitrum, optimism } from 'wagmi/chains'
-import { injected, walletConnect } from 'wagmi/connectors'
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'YOUR_PROJECT_ID'
 
-export const config = createConfig({
+export const config = getDefaultConfig({
+  appName: 'Sui DeFi Dashboard',
+  projectId,
   chains: [mainnet, polygon, arbitrum, optimism],
-  connectors: [
-    injected(),
-    walletConnect({
-      projectId,
-      showQrModal: false,
-    }),
-  ],
   transports: {
     [mainnet.id]: http(),
     [polygon.id]: http(),
     [arbitrum.id]: http(),
     [optimism.id]: http(),
   },
+  ssr: true,
 })
